@@ -2,22 +2,15 @@ if exists('g:loaded_bufstop_tabline')
   finish
 endif
 
-let g:bufstop_tabline_speed_key_separator = ''
+" bufstop_tabline_key                   = ''
+" bufstop_tabline_speed_key_separator   = ':'
+" bufstop_tabline_show_unloaded_buffers = 0
+" bufstop_tabline_location              = s:default_location
+" bufstop_tabline_repeat_key            = g:bufstop_tabline_key
+" bufstop_tabline_keys                  = g:BufstopKeys
+" bufstop_tabline_highlight_time        = s:default_highlight_time
 
-" only show tabline (list of buffers) if we have more than one
-" buffer to show...
-function! s:CheckForMoreThanOneBuffer()
-    let numBuffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-    if numBuffers > 1
-        set showtabline=2
-        set tabline=%!bufstop_tabline#make_tabline()
-    else
-        set tabline=''
-        set showtabline=0
-    endif
 
-endfunction
-
-if has("autocmd")
-    autocmd BufWinEnter * :call s:CheckForMoreThanOneBuffer()
+if has_key(g:, 'bufstop_tabline_key') && g:bufstop_tabline_key != ''
+    exec 'map '.g:bufstop_tabline_key.' :call bufstop_tabline#show_fast()<CR>'
 endif
