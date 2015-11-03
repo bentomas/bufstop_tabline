@@ -2,15 +2,23 @@ if exists('g:loaded_bufstop_tabline')
   finish
 endif
 
-" bufstop_tabline_key                   = ''
-" bufstop_tabline_speed_key_separator   = ':'
-" bufstop_tabline_show_unloaded_buffers = 0
-" bufstop_tabline_location              = s:default_location
-" bufstop_tabline_repeat_key            = g:bufstop_tabline_key
-" bufstop_tabline_keys                  = g:BufstopKeys
-" bufstop_tabline_highlight_time        = s:default_highlight_time
+let s:defaults = {}
+"let s:defaults['bufstop_tabline_location']              = 'status'
+let s:defaults['bufstop_tabline_location']              = 'tab'
+let s:defaults['bufstop_tabline_key_separator']         = ':'
+let s:defaults['bufstop_tabline_show_unloaded_buffers'] = 0
+let s:defaults['bufstop_tabline_highlight_time']        = 150
+
+let s:defaults['bufstop_tabline_keys']                  = g:BufstopKeys
+let s:defaults['bufstop_tabline_command_keys']          = {}
+
+for key in keys(s:defaults)
+  if !exists('g:'.key)
+    exec 'let g:'.key.' = s:defaults["'.key.'"]'
+  endif
+endfor
 
 
-if has_key(g:, 'bufstop_tabline_key') && g:bufstop_tabline_key != ''
-    exec 'map '.g:bufstop_tabline_key.' :call bufstop_tabline#show_fast()<CR>'
+if g:bufstop_tabline_mapping != ''
+    exec 'map '.g:bufstop_tabline_mapping.' :call bufstop_tabline#show()<CR>'
 endif
